@@ -83,7 +83,7 @@
         <GUIConfig name="ScintillaGlobalSettings" enableMultiSelection="no" />
         <GUIConfig name="openSaveDir" value="0" defaultDirPath="" />
         <GUIConfig name="titleBar" short="no" />
-        <GUIConfig name="stylerTheme" path="C:\assembler\npp\stylers.xml" />
+        <GUIConfig name="stylerTheme" path="Z:\cmc-asm\assembler-windows\npp\stylers.xml" />
         <GUIConfig name="DockingManager" leftWidth="200" rightWidth="200" topHeight="200" bottomHeight="200">
             <PluginDlg pluginName="NppExec" id="-1" curr="3" prev="-1" isVisible="yes" />
             <PluginDlg pluginName="LightExplorer.dll" id="0" curr="0" prev="-1" isVisible="no" />
@@ -98,20 +98,7 @@
         <Find name=".txt" />
     </FindHistory>
     <History nbMaxFile="15">
-        <File filename="C:\Users\Fengjie\Desktop\assembler\masm\fullma.bat" />
-        <File filename="C:\assembler\PROCREC.lst" />
-        <File filename="C:\assembler\stroka.lst" />
-        <File filename="C:\assembler\stroka.asm" />
-        <File filename="C:\assembler\PROCREC.asm" />
-        <File filename="C:\assembler\procrec1.asm" />
-        <File filename="C:\assembler\a714R.asm" />
-        <File filename="C:\assembler\a714.asm" />
-        <File filename="C:\assembler\rekobr.asm" />
-        <File filename="C:\assembler\rek.asm" />
-        <File filename="C:\assembler\aw1.asm" />
-        <File filename="C:\assembler\vtr.lst" />
-        <File filename="C:\assembler\vtr.asm" />
-        <File filename="C:\assembler\recurs.asm" />
-        <File filename="C:\assembler\mac.lst" />
+        <File filename="Z:\cmc-asm\assembler-windows\IO.ASM" />
+        <File filename="Z:\cmc-asm\assembler-windows\TEST.LST" />
     </History>
 </NotepadPlus>
