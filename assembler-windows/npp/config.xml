@@ -90,7 +90,7 @@
             <ActiveTabs cont="0" activeTab="-1" />
             <ActiveTabs cont="1" activeTab="-1" />
             <ActiveTabs cont="2" activeTab="-1" />
-            <ActiveTabs cont="3" activeTab="0" />
+            <ActiveTabs cont="3" activeTab="-1" />
         </GUIConfig>
     </GUIConfigs>
     <!-- The History of opened files list -->
@@ -100,5 +100,6 @@
     <History nbMaxFile="15">
         <File filename="Z:\cmc-asm\assembler-windows\IO.ASM" />
         <File filename="Z:\cmc-asm\assembler-windows\TEST.LST" />
+        <File filename="Z:\cmc-asm\assembler-windows\schem.asm" />
     </History>
 </NotepadPlus>
