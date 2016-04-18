@@ -3,4 +3,5 @@ Copyright 2002-2009 DOSBox Team, published under GNU GPL.
 ---
 CONFIG:Loading primary settings from config file t:\dosbox\dosbox.conf
 MIDI:Opened device:win32
-DOS keyboard layout loaded with main language code RU for layout ru
+Failed to create hardware surface.
+Restarting video subsystem with windib enabled.

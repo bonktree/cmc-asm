@@ -1,0 +1,27 @@
+
+**/*~
+**/*.o
+**/*.a
+**/*.so
+**/*.so.*
+**/*.swp
+**/*.swo
+**/.#*
+**/*.tmp
+**/a.out
+**/.DS_Store
+**/.dylib
+**/*.dSYM/
+
+**/*.lst
+**/*.LST
+./*.OBJ
+# Testing material
+test.asm
+./*.exe
+./*.EXE
+
+# Notepad++ related
+npp/session.xml
+
+
