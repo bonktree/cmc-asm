@@ -1,6 +1,5 @@
 @echo off
-set DEBUGGER="t:\td\td.exe"
+set DEBUGGER=t:\td\td.exe
 
-%DEBUGGER% %1
-pause
+%DEBUGGER% "%1"
 exit
