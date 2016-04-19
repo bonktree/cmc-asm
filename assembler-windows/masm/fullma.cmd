@@ -40,17 +40,19 @@ rem Poekhali
 subst t: /d >nul
 rem Full path to ...\masm
 set MASMP="%~dp0."
+echo MASMP = %MASMP%
 subst t: %MASMP%
 
 subst u: /d >nul
 rem Full path to source directory
 set ARGP="%~dp2."
+echo ARGP = %ARGP%
 set FN=%~n2
 subst u: %ARGP%
 
 if --%PURPOSE%==--dd (
 	call t:\dosbox\dosbox.exe -conf t:\dosbox\dosbox.conf
-	exit
+	goto fin
 )
 
 

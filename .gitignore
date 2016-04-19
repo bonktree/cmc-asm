@@ -18,12 +18,14 @@
 **/*.lst
 **/*.LST
 **/*.OBJ
+**/*.TR
+
 # Testing material
-test.asm
-test.exe
-TEST.EXE
+assembler-windows/test.asm
+assembler-windows/test.exe
+assembler-windows/TEST.EXE
 
 # Notepad++ related
-npp/session.xml
+assembler-windows/npp/session.xml
 
 
