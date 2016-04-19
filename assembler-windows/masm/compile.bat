@@ -1,3 +1,4 @@
+@echo off
 rem t:\masm4\masm.exe /nologo /c /Fou:\%FN%.obj /Flu:\%FN%.lst /W3 /X /Zm /Zi /It: u:\%FN%.asm
 set FN=%1
 u:
