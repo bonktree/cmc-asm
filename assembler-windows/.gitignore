@@ -12,14 +12,16 @@
 **/.DS_Store
 **/.dylib
 **/*.dSYM/
+**/desktop.ini
+**/thumbs.db
 
 **/*.lst
 **/*.LST
-./*.OBJ
+**/*.OBJ
 # Testing material
 test.asm
-./*.exe
-./*.EXE
+test.exe
+TEST.EXE
 
 # Notepad++ related
 npp/session.xml

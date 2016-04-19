@@ -90,16 +90,12 @@
             <ActiveTabs cont="0" activeTab="-1" />
             <ActiveTabs cont="1" activeTab="-1" />
             <ActiveTabs cont="2" activeTab="-1" />
-            <ActiveTabs cont="3" activeTab="-1" />
+            <ActiveTabs cont="3" activeTab="0" />
         </GUIConfig>
     </GUIConfigs>
     <!-- The History of opened files list -->
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150">
         <Find name=".txt" />
     </FindHistory>
-    <History nbMaxFile="15">
-        <File filename="Z:\cmc-asm\assembler-windows\IO.ASM" />
-        <File filename="Z:\cmc-asm\assembler-windows\TEST.LST" />
-        <File filename="Z:\cmc-asm\assembler-windows\schem.asm" />
-    </History>
+    <History nbMaxFile="15" />
 </NotepadPlus>
