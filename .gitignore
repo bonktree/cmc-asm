@@ -27,5 +27,6 @@ assembler-windows/TEST.EXE
 
 # Notepad++ related
 assembler-windows/npp/session.xml
-
+assembler-windows/npp/stdout.txt
+assembler-windows/npp/stderr.txt
 
