@@ -1,44 +1,96 @@
 #!/bin/sh
 
-# Acquiring path to masm
-readlink "$0" >/dev/null && MASM_ROOT=`readlink "$0"` || MASM_ROOT="$0"
-MASM_ROOT=`realpath "$MASM_ROOT"`
-MASM_PATH="$MASM_ROOT/masm"
+#####################################################################
+# Error codes:
+#
+#
+#
+#
+#
+#####################################################################
 
-readlink "$1" >/dev/null && FN=`readlink "$1"` || FN="$1"
-FN=`basename $FN`
-FN_BASE=`echo $FN | sed 's/\.asm$//g'`
-[ "$FN_BASE.asm" = "$FN" ] || {
-    echo "The source file must end with \`.asm\'"
-    exit 40
+[ $DEBUG -ge 0 ] && echo "Displaying debugging info."
+
+# Acquiring path to masm package
+MASM_ROOT=`realpath "$0"`
+MASM_ROOT=`dirname "$MASM_ROOT"`
+# sed wants to know $MASM_PATH
+export MASM_PATH="$MASM_ROOT/masm"
+
+# Acquiring info about the source
+FN_FULL=`realpath $1`
+if [ -z $FN_FULL ]; then exit 40; fi
+FNE=`basename $FN_FULL`
+FN=`echo $FNE | sed 's/\.asm$//g'`
+[ "$FN.asm" = "$FNE" ] || {
+    echo "The source file must end with \`.asm'"
+    exit 41
 }
-FN_DIR=`dirname $FN`
+FN_DIR=`dirname $FNE`
+# we run dosbox in the source directory as current dir.
+# to be able to easily mount it
 cd $FN_DIR
 
-TMPCONF=/tmp/${USER}-cmc-asm.dosbox.conf
-cat $MASM_PATH/dosbox.conf | sed s/mount c: ---$/mount c: $MASM_PATH/ > /tmp/${USER}-cmc-asm.dosbox.conf
+TMP_CONF=/tmp/${USER}-cmc-asm.dosbox.conf
+sed -e 's|-package-masm-dir-|'$MASM_PATH'|g' < "$MASM_PATH/dosbox.conf" > $TMP_CONF
 
 ML=c:\\ml.exe
 LINKER=c:\\link.exe
 
-# Cleaning
+[ $DEBUG -ge 1 ] && {
+    echo --- Debugging ---
+    echo "root:" $MASM_ROOT
+    echo "path to masm:" $MASM_PATH
+    echo "filename to compile:" $FN_DIR/$FNE "($FN)"
+}
+
+if [ ! -s $TMP_CONF ];
+then {
+    echo "Empty dosbox.conf!"
+    echo "Abort."
+    exit 5
+};
+else [ $DEBUG -ge 2 ] && {
+    echo "temporary config contents:"
+    cat $TMP_CONF;
+    echo "($TMP_CONF)"
+};
+fi
+
+[ $DEBUG -ge 1 ] && {
+    echo --- Starting DOSBox... ---
+}
+
+# Cleaning binaries
 [ -f $FN.exe ] && rm $FN.exe
 [ -f $FN.obj ] && rm $FN.obj
 
 # Compiling
-dosbox -c "$ML /nologo /c /Fo$FN.obj /Fl$FN.lst /W3 /X /Zm /Zi /I$MASMPATH $FN.asm" -conf $TMPCONF #>/dev/null
+dosbox -c "u:
+$ML /nologo /c /Fo$FN.obj /Fl$FN.lst /W3 /X /Zm /Zi /I$MASM_PATH $FN.asm" \
+    -conf $TMP_CONF #>/dev/null
 if [ ! -f $FN.obj ] ; then
-    echo Compilation error.
+    echo "Compilation error."
+    rm -f $TMP_CONF
     exit 10
-elif echo Compilation complete.
+else
+    echo "Compilation complete."
 fi
 
 # Linking
-dosbox -c "$LINKER /nologo u:/$FN.obj+ioproc.obj,$FN.exe\;" -conf $TMPCONF #>/dev/null
+dosbox -c "u:
+$LINKER /nologo u:/$FN.obj+ioproc.obj,$FN.exe\;" \
+    -conf $TMP_CONF #>/dev/null
 if [ ! -f $FN.exe ] ; then
-    echo Linking error.
+    echo "Linking error."
+    rm -f $TMP_CONF
     exit 11
-elif echo Linking complete.
+else
+    echo "Linking complete."
 fi
 
+
+
+
+rm -f $TMP_CONF
 
