@@ -20,10 +20,14 @@
 **/*.OBJ
 **/*.TR
 
+# Proprietary blobs
+**/masm4/
+**/td/
+
 # Testing material
-assembler-windows/test.asm
-assembler-windows/test.exe
-assembler-windows/TEST.EXE
+assembler-*/test.asm
+assembler-*/test.exe
+assembler-*/TEST.EXE
 
 # Notepad++ related
 assembler-windows/npp/session.xml
