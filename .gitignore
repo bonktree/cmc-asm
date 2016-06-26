@@ -18,6 +18,7 @@
 **/*.lst
 **/*.LST
 **/*.OBJ
+**/*.CRF
 **/*.TR
 
 # Proprietary blobs
@@ -25,8 +26,8 @@
 **/td/
 
 # Testing material
-assembler-*/test.asm
-assembler-*/test.exe
+assembler-*/{test,schem}.asm
+assembler-*/{test,schem}.exe
 assembler-*/TEST.EXE
 
 # Notepad++ related

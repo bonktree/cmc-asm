@@ -1,0 +1,88 @@
+#!/bin/sh
+#####################################################################
+# Verbosity levels:
+# <0: silent (not yet implemented)
+# 0: normal (only fatal errors)
+# 1: dosbox (DOSBox standard output)
+# 2: dosbox_echo_on (DOSBox prints out every command)
+# 3: paths (paths, filenames)
+# 4: config (DOSBox config in use)
+#
+#####################################################################
+# Error codes:
+# 5: empty DOSBOX config
+# 10: assembling failed
+# 11: linking failed
+# 40: nothing specified to assemble
+# 41: filename does not end with .asm
+#
+#####################################################################
+
+[ -z $DEBUG ] && DEBUG=0
+
+[ $DEBUG -gt 0 ] && echo "Verbosity level $DEBUG."
+[ $DEBUG -ge 2 ] && {
+    echo "Disabling '@echo off' in DOSBox."
+    MASM_SED_RULE_ECHO_ON='s/@echo off//g'
+}
+
+# Acquiring path to masm package
+MASM_ROOT=`realpath "$0"`
+MASM_ROOT=`dirname "$MASM_ROOT"`
+MASM_PATH="$MASM_ROOT/lib"
+
+# Acquiring info about the source
+FN_FULL=`realpath $1`
+if [ -z $FN_FULL ]; then
+    # nothing to compile!
+    exit 40
+fi
+FNE=`basename $FN_FULL`
+FN=`echo $FNE | sed 's/\.asm$//g'`
+[ "$FN.asm" = "$FNE" ] || {
+    echo "The source file must end with \`.asm'"
+    exit 41
+}
+FN_DIR=`dirname $FNE`
+# we run dosbox in the source directory as current dir.
+# to be able to easily mount it
+cd $FN_DIR
+
+TMP_CONF=/tmp/${USER}-cmc-asm.dosbox.conf
+MASM_SED_RULE_MOUNT_C='s|-package-masm-dir-|'"$MASM_PATH"'|g'
+cat "$MASM_PATH/dosbox.conf" | \
+    sed -e "$MASM_SED_RULE_MOUNT_C; $MASM_SED_RULE_ECHO_ON" \
+    > $TMP_CONF
+
+
+[ $DEBUG -ge 3 ] && {
+    echo --- Debugging ---
+    echo "root:" $MASM_ROOT
+    echo "path to masm environment:" $MASM_PATH
+    echo "filename to compile:" $FN_DIR/$FNE "($FN)"
+}
+
+if [ ! -s $TMP_CONF ]; then {
+    echo "Empty dosbox.conf!"
+    echo "Abort."
+    exit 5
+};
+elif [ $DEBUG -ge 4 ]; then {
+    echo "temporary config contents:"
+    cat $TMP_CONF;
+    echo "($TMP_CONF)"
+};
+fi
+
+[ $DEBUG -gt 0 ] && DOSBOX_OUTPUT='' || DOSBOX_OUTPUT='>/dev/null'
+[ $DEBUG -gt 0 ] && DOSBOX_EXIT='' || DOSBOX_EXIT='-exit'
+
+[ $DEBUG -ge 1 ] && {
+    echo --- Starting DOSBox... ---
+}
+
+. "$MASM_PATH/compile.sh"
+. "$MASM_PATH/run.sh"
+
+rm -f $TMP_CONF
+

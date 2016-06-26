@@ -58,7 +58,7 @@ pon0: push dx           ; спасти dh (знак) и dl (ширину)
 pon1: mov  dx,0         ; ax -> (dx,ax)
       div  cs:ten       ; ax=ax div 10;  dx=ax mod 10
       add  dl,'0'
-      mov  byte ptr [bp-12+si],dl ; цифра -> стек
+      mov  [bp-12+si],dl ; цифра -> стек
       inc  si
       or   ax,ax
       jnz  pon1         ; еще не 0
@@ -81,7 +81,7 @@ pon21: cmp dx,si
       jmp  pon21
 ; печать (минуса и) цифр
 pon3: dec  si
-      mov  dl,byte ptr [bp-12+si]
+      mov  dl,[bp-12+si]
       int  21h
       or   si,si
       jnz  pon3
