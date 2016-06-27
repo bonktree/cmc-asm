@@ -74,8 +74,8 @@ elif [ $DEBUG -ge 4 ]; then {
 };
 fi
 
-[ $DEBUG -gt 0 ] && DOSBOX_OUTPUT='' || DOSBOX_OUTPUT='>/dev/null'
-[ $DEBUG -gt 0 ] && DOSBOX_EXIT='' || DOSBOX_EXIT='-exit'
+[ $DEBUG -gt 0 ] && DOSBOX_OUTPUT='' || DOSBOX_OUTPUT="> /dev/null"
+[ $DEBUG -gt 0 ] && DOSBOX_EXIT='' || DOSBOX_EXIT="-exit"
 
 [ $DEBUG -ge 1 ] && {
     echo --- Starting DOSBox... ---
