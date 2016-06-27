@@ -6,7 +6,7 @@
 # $DOSBOX_EXIT tells DOSBox if it needs to automatically close itself
 
 [ -z $FN ] && FN=$1
-[ -z $FN ] && exit 41
+[ -z $FN ] && exit 40
 
 # Cleaning binaries
 [ -f $FN.exe ] && rm $FN.exe
@@ -24,7 +24,7 @@ LINKER_CL="$LINKER $FN+c:\\ioproc.obj,$FN;"
 #export DOSBOX_EXIT
 #export DOSBOX_OUTPUT
 
-sh -c "dosbox -conf ""\"$TMP_CONF\""" \
+echo "dosbox -conf ""\"$TMP_CONF\""" '""c:\\dummy.bat""' \
     -c '""u:\\""' \
     -c '""$ML_CL""' \
     -c '""$LINKER_CL""' \
