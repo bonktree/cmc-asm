@@ -15,20 +15,18 @@
 **/desktop.ini
 **/thumbs.db
 
-**/*.lst
-**/*.LST
-**/*.OBJ
-**/*.CRF
-**/*.TR
+**/*.[lL][sS][tT]
+**/*.[oO][bB][jJ]
+**/*.[cC][rR][fF]
+**/*.[tT][rR]
 
 # Proprietary blobs
 **/masm4/
 **/td/
 
 # Testing material
-assembler-*/{test,schem}.asm
-assembler-*/{test,schem}.exe
-assembler-*/TEST.EXE
+assembler-*/test.asm
+assembler-*/*.[eE][xX][eE]
 
 # Notepad++ related
 assembler-windows/npp/session.xml
