@@ -24,7 +24,7 @@ LINKER_CL="$LINKER $FN+c:\\ioproc.obj,$FN;"
 #export DOSBOX_EXIT
 #export DOSBOX_OUTPUT
 
-echo "dosbox -conf ""\"$TMP_CONF\""" '""c:\\dummy.bat""' \
+sh -c "dosbox -conf ""\"$TMP_CONF\""" '""c:\\dummy.bat""' \
     -c '""u:\\""' \
     -c '""$ML_CL""' \
     -c '""$LINKER_CL""' \
