@@ -1,4 +1,10 @@
 #!/bin/sh
+# Command-line options:
+# -v	Increase verbosity level.
+#		This option may be specified more than once
+#		to make this launcher speak more.
+#		-vvv expands to level 3, -vvvv - to 4, ...
+# -d	After assembling run the .exe in a debugger.
 #####################################################################
 # Verbosity levels:
 # <0: silent (not yet implemented)
@@ -10,6 +16,7 @@
 #
 #####################################################################
 # Error codes:
+# 2: invalid command-line options
 # 5: empty DOSBOX config
 # 10: assembling failed
 # 11: linking failed
@@ -20,11 +27,30 @@
 
 [ -z $DEBUG ] && DEBUG=0
 
+while getopts ":vd" opt; do
+    case $opt in
+    v)
+        DEBUG=$(($DEBUG+1))
+        ;;
+    d)
+        MASM_USE_DEBUGGER=1
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 2
+        ;;
+    esac
+done
+
 [ $DEBUG -gt 0 ] && echo "Verbosity level $DEBUG."
 [ $DEBUG -ge 2 ] && {
     echo "Disabling '@echo off' in DOSBox."
     MASM_SED_RULE_ECHO_ON='s/@echo off//g'
 }
+
+[ $DEBUG -ge 3 ] && echo "$# cmdline arguments"
+# ${$#}
+eval MASM_LAST_CLI_ARGUMENT=\"\${$#}\"
 
 # Acquiring path to masm package
 MASM_ROOT=`realpath "$0"`
@@ -32,7 +58,7 @@ MASM_ROOT=`dirname "$MASM_ROOT"`
 MASM_PATH="$MASM_ROOT/lib"
 
 # Acquiring info about the source
-FN_FULL=`realpath $1`
+FN_FULL=`realpath "$MASM_LAST_CLI_ARGUMENT"`
 if [ -z $FN_FULL ]; then
     # nothing to compile!
     exit 40
@@ -82,6 +108,7 @@ fi
 }
 
 . "$MASM_PATH/compile.sh"
+#[ -z $MASM_USE_DEBUGGER ] && echo "no debugger" || echo "turbo debugger"
 . "$MASM_PATH/run.sh"
 
 rm -f $TMP_CONF
