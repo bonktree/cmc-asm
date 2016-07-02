@@ -1,4 +1,5 @@
 #!/bin/sh
+#
 # This script assumes that:
 # $FN is set to the assembler source filename (without extension)
 # $TMP_CONF is a synthesized dosbox.conf file
@@ -9,6 +10,6 @@
 [ -z $FN ] && exit 40
 
 sh -c "dosbox -conf ""\"$TMP_CONF\""" \
-    -c 'c:\\runprog.bat $FN' \
+    -c 'c:\\run_td.bat $FN' \
     ""$DOSBOX_EXIT"" ""$DOSBOX_OUTPUT"
 

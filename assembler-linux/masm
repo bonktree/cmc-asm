@@ -108,8 +108,7 @@ fi
 }
 
 . "$MASM_PATH/compile.sh"
-#[ -z $MASM_USE_DEBUGGER ] && echo "no debugger" || echo "turbo debugger"
-. "$MASM_PATH/run.sh"
+[ -z $MASM_USE_DEBUGGER ] && . "$MASM_PATH/run.sh" || . "$MASM_PATH/run_td.sh"
 
 rm -f $TMP_CONF
 
