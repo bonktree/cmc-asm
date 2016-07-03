@@ -10,5 +10,6 @@
 
 sh -c "dosbox -conf ""\"$TMP_CONF\""" \
     -c 'c:\\runprog.bat $FN' \
-    ""$DOSBOX_EXIT"" ""$DOSBOX_OUTPUT"
+    -c '""$DOSBOX_EXIT""' \
+    ""$DOSBOX_OUTPUT"
 

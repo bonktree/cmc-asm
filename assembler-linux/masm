@@ -101,14 +101,16 @@ elif [ $DEBUG -ge 4 ]; then {
 fi
 
 [ $DEBUG -gt 0 ] && DOSBOX_OUTPUT='' || DOSBOX_OUTPUT="> /dev/null"
-[ $DEBUG -gt 0 ] && DOSBOX_EXIT='' || DOSBOX_EXIT="-exit"
+[ $DEBUG -gt 0 ] && DOSBOX_EXIT='' || DOSBOX_EXIT="exit"
 
 [ $DEBUG -ge 1 ] && {
     echo --- Starting DOSBox... ---
 }
 
 . "$MASM_PATH/compile.sh"
-[ -z $MASM_USE_DEBUGGER ] && . "$MASM_PATH/run.sh" || . "$MASM_PATH/run_td.sh"
+[ -z $MASM_USE_DEBUGGER ] && \
+    . "$MASM_PATH/run.sh" || \
+    . "$MASM_PATH/run_td.sh"
 
 rm -f $TMP_CONF
 

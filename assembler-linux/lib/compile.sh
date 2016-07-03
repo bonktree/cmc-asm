@@ -15,20 +15,16 @@
 ML="c:\\masm4\\masm.exe"
 LINKER="c:\\masm4\\link.exe"
 
-#ML_CL="$ML /nologo /c /Fo$FN.obj /Fl$FN.lst /W3 /X /Zm /Zi /Ic:\ $FN.asm"
 ML_CL="$ML /c /Ic:\\ $FN,$FN,$FN;"
-#LINKER_CL="$LINKER /nologo $FN.obj+$MASMDOSPATH\\ioproc.obj,$FN.exe\;"
 LINKER_CL="$LINKER $FN+c:\\ioproc.obj,$FN;"
 
-#export TMP_CONF
-#export DOSBOX_EXIT
-#export DOSBOX_OUTPUT
-
-sh -c "dosbox -conf ""\"$TMP_CONF\""" '""c:\\dummy.bat""' \
+sh -c "dosbox -conf ""\"$TMP_CONF\""" \
     -c '""u:\\""' \
     -c '""$ML_CL""' \
     -c '""$LINKER_CL""' \
-    ""$DOSBOX_EXIT"" ""$DOSBOX_OUTPUT"
+    -c '""$DOSBOX_EXIT""' \
+    ""$DOSBOX_OUTPUT"
+
 find . -iname "$FN"'*' -print | $MASM_PATH/lower.sh
 if [ ! -f $FN.obj ] ; then
     echo "Compilation error."
