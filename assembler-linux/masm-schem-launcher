@@ -1,0 +1,15 @@
+#!/bin/sh
+# We suggest to use Sublime Text, as it is fast, 
+# lightweight, does not offer much clutter
+# and simple to use for most people
+# (supports the traditional desktop text
+# editor paradigm)
+# It has its disadvantages: proprietary,
+# not available in repositories.
+#
+# Vim implies getting used to.
+[ -z $EDITOR ] && \
+EDITOR=subl
+
+$EDITOR schem.asm
+
