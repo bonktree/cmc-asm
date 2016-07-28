@@ -1,3 +1,4 @@
+
 #!/bin/sh
 # This script assumes that:
 # $FN is set to the assembler source filename (without extension)
@@ -9,16 +10,16 @@
 [ -z $FN ] && exit 40
 
 # Cleaning binaries
-[ -z "$MASM_ACTION" ] && [ -f $FN.exe ] && rm $FN.exe
-[ -z "$MASM_ACTION" ] && [ -f $FN.obj ] && rm $FN.obj
+[ -f $FN.exe ] && rm $FN.exe
+[ -f $FN.obj ] && rm $FN.obj
 
-ML="c:\\masm4\\masm.exe"
+LINKER="c:\\masm4\\link.exe"
 
-ML_CL="$ML /c /Ic:\\ $FN,$FN,$FN;"
+LINKER_CL="$LINKER $FN+c:\\ioproc.obj,$FN;"
 
 sh -c "dosbox -conf ""\"$TMP_CONF\""" \
     -c '""u:\\""' \
-    -c '""$LINKER_CL""' \
+    -c '""$ML_CL""' \
     -c '""$DOSBOX_EXIT""' \
     ""$DOSBOX_OUTPUT_REDIRECTION"
 

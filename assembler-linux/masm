@@ -115,11 +115,20 @@ fi
     echo --- Starting DOSBox... ---
 }
 
-[ ! -z $MASM_COMPILE ] && . "$MASM_PATH/compile.sh"
-[ ! -z $MASM_LINK ] && . "$MASM_PATH/link.sh"
-[ -z $MASM_USE_DEBUGGER ] && \
-    . "$MASM_PATH/run.sh" || \
-    . "$MASM_PATH/run_td.sh"
+if [ -z $MASM_ACTION ]; then
+# everything!
+    . "$MASM_PATH/compile.sh"
+    . "$MASM_PATH/link.sh"
+    [ -z $MASM_USE_DEBUGGER ] \
+        && . "$MASM_PATH/run.sh" \
+        || . "$MASM_PATH/run_td.sh"
+elif [ "$MASM_ACTION" == 'compile' ]; then
+    . "$MASM_PATH/compile.sh"
+elif [ "$MASM_ACTION" == 'link' ]; then
+    . "$MASM_PATH/link.sh"
+elif [ "$MASM_ACTION" == 'run' ]; then
+    . "$MASM_PATH/run.sh"
+fi
 
 rm -f $TMP_CONF
 
