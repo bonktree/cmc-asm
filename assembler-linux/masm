@@ -1,10 +1,18 @@
 #!/bin/sh
+# Synopsis:
+# masm <options> <subject>
 # Command-line options:
 # -v	Increase verbosity level.
 #		This option may be specified more than once
 #		to make this launcher speak more.
 #		-vvv expands to level 3, -vvvv - to 4, ...
 # -d	After assembling run the .exe in a debugger.
+#
+# -c    Assemble only.
+# -l    Link only.
+# -r    Run the subject executable in DOSBox.
+# If none of -c, -l, -r is specified, masm assumes -clr.
+# 
 #####################################################################
 # Verbosity levels:
 # <0: silent (not yet implemented)
@@ -50,7 +58,7 @@ done
 
 [ $DEBUG -ge 3 ] && echo "$# cmdline arguments"
 # ${$#}
-eval MASM_LAST_CLI_ARGUMENT=\"\${$#}\"
+eval MASM_SUBJECT=\"\${$#}\"
 
 # Acquiring path to masm package
 MASM_ROOT=`realpath "$0"`
@@ -58,7 +66,7 @@ MASM_ROOT=`dirname "$MASM_ROOT"`
 MASM_PATH="$MASM_ROOT/lib"
 
 # Acquiring info about the source
-FN_FULL=`realpath "$MASM_LAST_CLI_ARGUMENT"`
+FN_FULL=`realpath "$MASM_SUBJECT"`
 if [ -z $FN_FULL ]; then
     # nothing to compile!
     exit 40
@@ -107,7 +115,8 @@ fi
     echo --- Starting DOSBox... ---
 }
 
-. "$MASM_PATH/compile.sh"
+[ ! -z $MASM_COMPILE ] && . "$MASM_PATH/compile.sh"
+[ ! -z $MASM_LINK ] && . "$MASM_PATH/link.sh"
 [ -z $MASM_USE_DEBUGGER ] && \
     . "$MASM_PATH/run.sh" || \
     . "$MASM_PATH/run_td.sh"

@@ -2,7 +2,7 @@
 # This script assumes that:
 # $FN is set to the assembler source filename (without extension)
 # $TMP_CONF is a synthesized dosbox.conf file
-# $DOSBOX_OUTPUT tells DOSBox where to dump stdout 
+# $DOSBOX_OUTPUT_REDIRECTION tells DOSBox where to dump stdout 
 # $DOSBOX_EXIT tells DOSBox if it needs to automatically close itself
 
 [ -z $FN ] && FN=$1
@@ -23,7 +23,7 @@ sh -c "dosbox -conf ""\"$TMP_CONF\""" \
     -c '""$ML_CL""' \
     -c '""$LINKER_CL""' \
     -c '""$DOSBOX_EXIT""' \
-    ""$DOSBOX_OUTPUT"
+    ""$DOSBOX_OUTPUT_REDIRECTION"
 
 find . -iname "$FN"'*' -print | $MASM_PATH/lower.sh
 if [ ! -f $FN.obj ] ; then
