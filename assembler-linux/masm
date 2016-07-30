@@ -8,10 +8,11 @@
 #		-vvv expands to level 3, -vvvv - to 4, ...
 # -d	After assembling run the .exe in a debugger.
 #
-# -c    Assemble only.
+# -s    Assemble only.
 # -l    Link only.
 # -r    Run the subject executable in DOSBox.
-# If none of -c, -l, -r is specified, masm assumes -clr.
+# -c    Remove all binaries related to the subject.
+# If none of -s, -l, -r is specified, masm assumes -slr.
 # 
 #####################################################################
 # Verbosity levels:
@@ -35,13 +36,28 @@
 
 [ -z $DEBUG ] && DEBUG=0
 
-while getopts ":vd" opt; do
+while getopts ":vdcslr" opt; do
     case $opt in
     v)
         DEBUG=$(($DEBUG+1))
         ;;
     d)
         MASM_USE_DEBUGGER=1
+        ;;
+    c)
+        MASM_ACTION="clean"
+        ;;
+    s)
+        MASM_ACTION="compile"
+        ;;
+    l)
+        MASM_ACTION="link"
+        ;;
+    r)
+        MASM_ACTION="run"
+        ;;
+    -)
+        break;
         ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
@@ -59,6 +75,8 @@ done
 [ $DEBUG -ge 3 ] && echo "$# cmdline arguments"
 # ${$#}
 eval MASM_SUBJECT=\"\${$#}\"
+
+MASM_FORCE_LOWERCASE="yes"
 
 # Acquiring path to masm package
 MASM_ROOT=`realpath "$0"`
@@ -127,7 +145,9 @@ elif [ "$MASM_ACTION" == 'compile' ]; then
 elif [ "$MASM_ACTION" == 'link' ]; then
     . "$MASM_PATH/link.sh"
 elif [ "$MASM_ACTION" == 'run' ]; then
-    . "$MASM_PATH/run.sh"
+    [ -z $MASM_USE_DEBUGGER ] \
+        && . "$MASM_PATH/run.sh" \
+        || . "$MASM_PATH/run_td.sh"
 fi
 
 rm -f $TMP_CONF

@@ -13,11 +13,11 @@ LINKER_CL="$LINKER $FN+c:\\ioproc.obj,$FN;"
 
 sh -c "dosbox -conf ""\"$TMP_CONF\""" \
     -c '""u:\\""' \
-    -c '""$ML_CL""' \
+    -c '""$LINKER_CL""' \
     -c '""$DOSBOX_EXIT""' \
     ""$DOSBOX_OUTPUT_REDIRECTION"
 
-find . -iname "$FN"'*' -print | $MASM_PATH/lower.sh
+[ ! -z "$MASM_FORCE_LOWERCASE" ] && find . -iname "$FN"'*' -print | $MASM_PATH/lower.sh
 if [ ! -f $FN.exe ] ; then
     echo "Linking error."
     rm -f $TMP_CONF

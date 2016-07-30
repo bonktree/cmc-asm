@@ -14,22 +14,3 @@ if [ -z $MASM_ACTION ]; then
     [ -f $FN.obj ] && rm $FN.obj
 fi
 
-ML="c:\\masm4\\masm.exe"
-ML_CL="$ML /c /Ic:\\ $FN,$FN,$FN;"
-
-sh -c "dosbox -conf ""\"$TMP_CONF\""" \
-    -c '""u:\\""' \
-    -c '""$ML_CL""' \
-    -c '""$DOSBOX_EXIT""' \
-    ""$DOSBOX_OUTPUT_REDIRECTION"
-
-[ ! -z "$MASM_FORCE_LOWERCASE" ] && find . -iname "$FN"'*' -print | $MASM_PATH/lower.sh
-if [ ! -f $FN.obj ] ; then
-    echo "Compilation error."
-    rm -f $TMP_CONF
-    exit 10
-else
-    echo "Compilation complete."
-fi
-
-
