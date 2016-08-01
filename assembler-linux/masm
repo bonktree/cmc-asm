@@ -42,6 +42,8 @@ while getopts ":vd" opt; do
     esac
 done
 
+export SDL_VIDEO_X11_DGAMOUSE=0
+
 [ $DEBUG -gt 0 ] && echo "Verbosity level $DEBUG."
 [ $DEBUG -ge 2 ] && {
     echo "Disabling '@echo off' in DOSBox."
