@@ -8,9 +8,15 @@
 [ -z $FN ] && FN="$1"
 [ -z $FN ] && exit 40
 
+extn_list="exe crf lst obj tr"
+extn_list_wcaps="$extn_list "`echo $extn_list | tr '[:lower:]' '[:upper:]'`
+
 # Cleaning binaries
-if [ -z $MASM_ACTION ]; then
-    [ -f $FN.exe ] && rm $FN.exe
-    [ -f $FN.obj ] && rm $FN.obj
-fi
+for extn in "$extn_list_wcaps"; do
+    [ -f "$FN.$extn" ] && rm $FN.$extn
+done
+
+unset extn
+unset extn_list
+unset extn_list_wcaps
 

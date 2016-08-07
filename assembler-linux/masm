@@ -90,17 +90,29 @@ if [ -z $FN_FULL ]; then
     exit 40
 fi
 FNE=`basename $FN_FULL`
-FN=`echo $FNE | sed 's/\.asm$//g'`
-[ "$FN.asm" = "$FNE" ] || {
-    echo "The source file must end with \`.asm'"
-    exit 41
+FN=`echo $FNE | sed 's/\.[^\.]*$//g'`
+# checking file name extension
+if [ -z "$MASM_ACTION" ] || \
+    [ "$MASM_ACTION" = 'compile' ] && \
+    [ ! "$FN.asm" = "$FNE" ]; then {
+        echo "The source file must end with \`.asm'"
+        exit 41
 }
+elif [ "$MASM_ACTION" = 'link' ] && \
+    [ ! "$FN.obj" = "$FNE" ]; then {
+        echo "The source file must end with \`.obj'"
+        exit 41
+}
+fi
+
+
+# Setting up paths
 FN_DIR=`dirname $FNE`
 # we run dosbox in the source directory as current dir.
 # to be able to easily mount it
 cd $FN_DIR
 
-TMP_CONF=/tmp/${USER}-cmc-asm.dosbox.conf
+TMP_CONF=/tmp/${USER}-`date -u +%s`-cmc-asm.dosbox.conf
 MASM_SED_RULE_MOUNT_C='s|-package-masm-dir-|'"$MASM_PATH"'|g'
 cat "$MASM_PATH/dosbox.conf" | \
     sed -e "$MASM_SED_RULE_MOUNT_C; $MASM_SED_RULE_ECHO_ON" \
@@ -111,7 +123,7 @@ cat "$MASM_PATH/dosbox.conf" | \
     echo --- Debugging ---
     echo "root:" $MASM_ROOT
     echo "path to masm environment:" $MASM_PATH
-    echo "filename to compile:" $FN_DIR/$FNE "($FN)"
+    echo "filename to process:" $FN_DIR/$FNE "($FN)"
 }
 
 if [ ! -s $TMP_CONF ]; then {
@@ -135,16 +147,17 @@ fi
 
 if [ -z $MASM_ACTION ]; then
 # everything!
-    . "$MASM_PATH/compile.sh"
-    . "$MASM_PATH/link.sh"
+    . "$MASM_PATH/all.sh"
     [ -z $MASM_USE_DEBUGGER ] \
         && . "$MASM_PATH/run.sh" \
         || . "$MASM_PATH/run_td.sh"
-elif [ "$MASM_ACTION" == 'compile' ]; then
+elif [ "$MASM_ACTION" = 'clean' ]; then
+    . "$MASM_PATH/clean.sh"
+elif [ "$MASM_ACTION" = 'compile' ]; then
     . "$MASM_PATH/compile.sh"
-elif [ "$MASM_ACTION" == 'link' ]; then
+elif [ "$MASM_ACTION" = 'link' ]; then
     . "$MASM_PATH/link.sh"
-elif [ "$MASM_ACTION" == 'run' ]; then
+elif [ "$MASM_ACTION" = 'run' ]; then
     [ -z $MASM_USE_DEBUGGER ] \
         && . "$MASM_PATH/run.sh" \
         || . "$MASM_PATH/run_td.sh"
