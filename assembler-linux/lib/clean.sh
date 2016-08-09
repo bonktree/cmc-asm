@@ -9,14 +9,16 @@
 [ -z $FN ] && exit 40
 
 extn_list="exe crf lst obj tr"
-extn_list_wcaps="$extn_list "`echo $extn_list | tr '[:lower:]' '[:upper:]'`
 
 # Cleaning binaries
-for extn in "$extn_list_wcaps"; do
-    [ -f "$FN.$extn" ] && rm $FN.$extn
+for extn in $extn_list; do
+    [ -f "$FN.$extn" ] && rm "$FN.$extn"
+    
+    upper_fn_ext="`echo \"$FN.$extn\" | tr '[:lower:]' '[:upper:]'`"
+    [ -f "$upper_fn_ext" ] && rm "$upper_fn_ext"
 done
 
-unset extn
 unset extn_list
 unset extn_list_wcaps
+unset upper_fn_ext
 
