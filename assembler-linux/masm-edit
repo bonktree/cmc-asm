@@ -11,8 +11,8 @@
 [ -z $EDITOR ] && \
 EDITOR=subl
 
-SCRIPT_DIRNAME="`dirname $0`"
-MASM_ROOT="`realpath $SCRIPT_DIRNAME`"
+SCRIPT_FULLNAME="`realpath $0`"
+MASM_ROOT="`dirname $SCRIPT_FULLNAME`"
 
 $EDITOR "$MASM_ROOT/schem.asm"
 
